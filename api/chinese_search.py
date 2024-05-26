@@ -5,8 +5,8 @@ from utils.results import error_result
 def get_chinese_match(word: str):
     with db_conn.cursor() as cursor:
         cursor.execute(
-            "select * from hsk_words where lower(russian) like lower(%s) order by CHAR_LENGTH(russian) asc",
-            ("%" + word + "%",),
+            "select id, chinese, russian from hsk_words where lower(russian) like lower(%s) order by CHAR_LENGTH(russian) asc",
+            ("%" + word.lower() + "%",),
         )
         match = cursor.fetchall()
         if match == None:
