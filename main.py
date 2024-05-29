@@ -3,6 +3,7 @@ from typing import Annotated
 
 from api.chinese_search import get_chinese_match, get_word_details
 from api.learning_set import save_word, get_saved_words, delete_saved_word, check_can_train
+from api.image_recognition import rate_accuracy
 from utils.results import error_result
 
 
@@ -63,3 +64,15 @@ def can_train_handler(user_id: Annotated[int | None, Query()] = None):
     if user_id == None:
         return error_result(err_msg="no user id")
     return check_can_train(user_id=user_id)
+
+
+# MARK: image processing-recognition
+
+@app.post("/accuracy-rate")
+def accuracy_rate_handler(image: Annotated[str | None, Form()] = None, target: Annotated[str | None, Form()] = None):
+    if image == None:
+        return error_result(err_msg="no image string")
+    if target == None:
+        return error_result(err_msg="no target")
+    
+    return rate_accuracy(image=image, target=target)
