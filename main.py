@@ -8,7 +8,7 @@ from api.image_recognition import score_accuracy
 from utils.results import error_result
 
 
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 app.add_middleware(
     CORSMiddleware,
