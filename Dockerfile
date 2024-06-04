@@ -31,7 +31,9 @@ COPY --from=build-stage /app /app
 
 WORKDIR /app
 
+RUN . ./venv/bin/activate
+
 EXPOSE 80 8000
 
-CMD ["sh", "-c", ". /app/venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"]
 
