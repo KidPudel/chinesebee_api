@@ -14,7 +14,7 @@ COPY requirements.txt ./
 
 RUN python -m venv venv
 
-RUN source ./venv/bin/activate && pip install --no-cache-dir -r requirements.txt
+RUN . ./venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
 
 FROM python:3.12.2-slim-bookworm as serve-stage
@@ -26,10 +26,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build-stage /app/venv /app/venv
-
 WORKDIR /app
 
-RUN source ./venv/bin/activate
+COPY . .
 
-CMD sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"
+COPY --from=build-stage /app/venv ./venv
+
+
+
+CMD sh -c ". /app/venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"
