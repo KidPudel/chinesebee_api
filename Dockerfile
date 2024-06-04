@@ -28,6 +28,8 @@ COPY --from=build-stage /app /app
 
 WORKDIR /app
 
+RUN pip install uvicorn
+
 EXPOSE 80 8000
 
-CMD uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g daemon off;
+CMD uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off';
