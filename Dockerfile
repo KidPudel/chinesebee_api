@@ -12,16 +12,24 @@ WORKDIR /app
 
 COPY requirements.txt ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m venv venv
 
-COPY . .
-
-# run when the container starts
-ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN source ./venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
 
-FROM nginx:alpine as serve-stage
+FROM python:3.12.2-slim-bookworm as serve-stage
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    nginx \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY --from=build-stage /app/venv /app/venv
+
+WORKDIR /app
+
+RUN source ./venv/bin/activate
+
+CMD sh -c "uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'"
