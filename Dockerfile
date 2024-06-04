@@ -29,8 +29,6 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build-stage /app /app
 
-RUN /app/venv/bin/pip install uvicorn
-
 WORKDIR /app
 
 EXPOSE 80 8000
