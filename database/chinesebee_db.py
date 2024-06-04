@@ -1,4 +1,10 @@
 import psycopg
 from psycopg.rows import dict_row
+import os
 
-db_conn = psycopg.connect("dbname=chinesebee_db user=postgres", row_factory=dict_row)
+PGURL = os.environ.get("DATABASE_PRIVATE_URL")
+
+db_conn = psycopg.connect(
+    PGURL,
+    row_factory=dict_row,
+)
