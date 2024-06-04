@@ -19,7 +19,7 @@ RUN . ./venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
 FROM python:3.12.2-slim-bookworm as serve-stage
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 -y --no-install-recommends \
     build-essential \
     nginx \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
