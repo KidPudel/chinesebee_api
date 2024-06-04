@@ -24,11 +24,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install uvicorn
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build-stage /app /app
+
+RUN /app/venv/bin/pip install uvicorn
 
 WORKDIR /app
 
