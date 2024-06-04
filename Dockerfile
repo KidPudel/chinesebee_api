@@ -1,4 +1,4 @@
-FROM python:3.12.2-slim-bookworm AS build-stage
+FROM python:3.12.2-slim-bookworm AS build-serve-stage
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -11,8 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build-stage /app /app
-
 WORKDIR /app
 
 COPY requirements.txt ./
@@ -20,7 +18,6 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-
 
 EXPOSE 80 8000
 
