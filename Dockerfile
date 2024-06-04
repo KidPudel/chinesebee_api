@@ -1,4 +1,4 @@
-FROM python:3.12.2-slim-bookworm AS build-stage
+FROM python:3.12.2-slim-bookworm AS build-serve-stage
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     python3-dev \
     linux-headers-generic \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -17,20 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-
-FROM python:3.12.2-slim-bookworm AS serve-stage
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nginx \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN pip install uvicorn
-
 COPY default.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=build-stage /app /app
-
-WORKDIR /app
 
 EXPOSE 80 8000
 
