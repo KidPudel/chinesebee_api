@@ -14,7 +14,7 @@ WORKDIR /app
 COPY requirements.txt ./
 
 RUN python -m venv venv
-RUN sh -c "source venv/bin/activate && pip install --no-cache-dir -r requirements.txt"
+RUN sh -c ". venv/bin/activate && pip install --no-cache-dir -r requirements.txt"
 
 COPY . .
 
