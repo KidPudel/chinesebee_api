@@ -1,4 +1,4 @@
-FROM python:3.12.2-slim-bookworm AS build-serve-stage
+FROM python:3.12.2-slim-bookworm AS build-stage
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -6,10 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     python3-dev \
     linux-headers-generic \
-        nginx \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-COPY default.conf /etc/nginx/conf.d/default.conf
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -19,6 +16,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 80 8000
+# run when the container starts
+ENTRYPOINT ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
-CMD uvicorn main:app --host 0.0.0.0 --port 8000 & nginx -g 'daemon off;'
+
+FROM nginx:alpine as serve-stage
+
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+CMD ["nginx", "-g", "daemon off;"]
