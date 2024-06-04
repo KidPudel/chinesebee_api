@@ -6,7 +6,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     python3-dev \
     linux-headers-generic \
-    && rm -rf /var/lib/apt/lists/*
+        nginx \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY default.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build-stage /app /app
 
 WORKDIR /app
 
@@ -16,19 +21,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-FROM python:3.12.2-slim-bookworm AS serve-stage
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nginx \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-COPY default.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=build-stage /app /app
-
-WORKDIR /app
-
-RUN pip install uvicorn
 
 EXPOSE 80 8000
 
