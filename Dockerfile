@@ -18,7 +18,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 
-FROM nginx:stable-alpine AS serve-stage
+FROM python:3.12.2-slim-bookworm AS serve-stage
+
+RUN apt0get update && apt-get install -y --no-install-recommends \
+    nginx \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install uvicorn
 
 COPY default.conf /etc/nginx/conf.d/default.conf
 
