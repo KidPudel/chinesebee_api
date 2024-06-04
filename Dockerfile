@@ -20,7 +20,7 @@ COPY . .
 
 FROM python:3.12.2-slim-bookworm AS serve-stage
 
-RUN apt0get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     nginx \
     && rm -rf /var/lib/apt/lists/*
 
