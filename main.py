@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path, Form, Query
+from fastapi import FastAPI, Path, Form, Query, Request
 from starlette.middleware.cors import CORSMiddleware
 from typing import Annotated
 
@@ -12,11 +12,17 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://chinese-bee-dictation-production.up.railway.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def add_cors_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "https://chinese-bee-dictation-production.up.railway.app" 
+    return response
 
 @app.get("/")
 async def root():

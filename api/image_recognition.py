@@ -26,6 +26,7 @@ def score_accuracy(image: str, target: str):
             "score": out[0]["score"]
         }
     except Exception as e:
+        print(e)
         logging.error("FUCK")
         logging.error(e)
         
