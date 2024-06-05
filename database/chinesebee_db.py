@@ -2,7 +2,7 @@ import psycopg
 from psycopg.rows import dict_row
 import os
 
-PGURL = "postgresql://postgres:iMyWAfNNjHlWQUMevbgZXLASzsOwojod@monorail.proxy.rlwy.net:47948/railway"
+PGURL = os.environ.get("DATABASE_URL")
 
 db_conn = psycopg.connect(
     PGURL,
