@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Path, Form, Query
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 from typing import Annotated
 
 from api.chinese_search import get_chinese_match, get_word_details
