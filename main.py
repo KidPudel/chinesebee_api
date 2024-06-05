@@ -15,7 +15,7 @@ app.add_middleware(
     allow_origins=["*"]
 )
 
-@app.get("/api/")
+@app.get("/")
 async def root():
     return {"status": "alive"}
 
