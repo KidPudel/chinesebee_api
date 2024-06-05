@@ -32,6 +32,6 @@ COPY . .
 
 COPY --from=build-stage /app/venv ./venv
 
+EXPOSE 80 8000
 
-
-CMD sh -c ". /app/venv/bin/activate && uvicorn main:app --host 127.0.0.1 --port 80 & nginx -g 'daemon off;'"
+CMD sh -c ". /app/venv/bin/activate && uvicorn main:app --host 127.0.0.1 --port 8000 & nginx -g 'daemon off;'"
