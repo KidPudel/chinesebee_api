@@ -3,6 +3,7 @@ import base64
 from PIL import Image
 from io import BytesIO
 import logging
+from utils.results import error_result
 
 def score_accuracy(image: str, target: str):
     try:
@@ -14,12 +15,16 @@ def score_accuracy(image: str, target: str):
         ocr = CnOcr(rec_model_name="densenet_lite_136-gru")
         out = ocr.ocr(img_fp=img)
         print(out)
-        if len(out) == 0 or out[0]["text"] != target:
+        if len(out) == 0:
             return {
                 "success": True,
                 "score": 0
             }
-        
+        if out[0]["text"] != target:
+           return {
+                "success": True,
+                "score": 0
+            }  
         
         return {
             "success": True,
@@ -29,5 +34,6 @@ def score_accuracy(image: str, target: str):
         print(e)
         logging.error("FUCK")
         logging.error(e)
+        return error_result(err_msg="error while processing image")
         
     
