@@ -11,8 +11,8 @@ from utils.results import error_result
 app = FastAPI()
 
 
-# preflight for accuracy-rate
-@app.options("/accuracy-rate")
+# preflight for accuracy-score
+@app.options("/accuracy-score")
 async def preflight_handler():
     response = Response()
     response.headers['Access-Control-Allow-Origin'] = "https://chinese-bee-dictation-production.up.railway.app"
