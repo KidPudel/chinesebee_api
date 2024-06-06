@@ -17,7 +17,7 @@ async def preflight_handler():
     response = Response()
     response.headers['Access-Control-Allow-Origin'] = "https://chinese-bee-dictation-production.up.railway.app"
     response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Accept, Connection"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Accept"
     response.headers["Connection"] = "keep-alive"
     return response
 
@@ -25,6 +25,7 @@ async def preflight_handler():
 async def add_cors_headers(request: Request, call_next):
     response = await call_next(request)
     response.headers["Access-Control-Allow-Origin"] = "https://chinese-bee-dictation-production.up.railway.app" 
+    response.headers["Connection"] = "keep-alive"
     return response
 
 app.add_middleware(
