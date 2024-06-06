@@ -17,7 +17,8 @@ async def preflight_handler():
     response = Response()
     response.headers['Access-Control-Allow-Origin'] = "https://chinese-bee-dictation-production.up.railway.app"
     response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Accept"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Accept, Connection"
+    response.headers["Connection"] = "keep-alive"
     return response
 
 @app.middleware("http")
