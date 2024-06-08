@@ -14,7 +14,7 @@ parent_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(parent_path)
 
 from database.chinesebee_db import db_conn
-
+from utils.decorators import tireless_connection
 
 
 def scrape_words(level: int) -> list[Dict]:
@@ -47,6 +47,8 @@ def scrape_words(level: int) -> list[Dict]:
     return words
 
 
+
+@tireless_connection
 def populate_database_with_words():
     hsk_collections: list[list[Dict]] = []
     for level in range(6):

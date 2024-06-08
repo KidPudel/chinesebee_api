@@ -1,7 +1,9 @@
 from database.chinesebee_db import db_conn
 from utils.results import error_result
+from utils.decorators import tireless_connection
 
 
+@tireless_connection
 def get_chinese_match(word: str):
     with db_conn.cursor() as cursor:
         cursor.execute(
@@ -13,6 +15,8 @@ def get_chinese_match(word: str):
             return error_result(err_msg="word not found")
         return {"success": True, "match": match}
 
+
+@tireless_connection
 def get_word_details(id: int):
     with db_conn.cursor() as cursor:
         cursor.execute("select chinese, pinyin, english, russian, hsk_level from hsk_words where id = %s", (id,))

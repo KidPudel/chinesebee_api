@@ -1,7 +1,9 @@
 from database.chinesebee_db import db_conn
 from utils.results import error_result
+from utils.decorators import tireless_connection
 
 
+@tireless_connection
 def save_word(user_id: int, word_id: int):
     with db_conn.cursor() as cursor:
         cursor.execute(
@@ -17,6 +19,7 @@ def save_word(user_id: int, word_id: int):
         }
 
 
+@tireless_connection
 def get_saved_words(user_id: int):
     with db_conn.cursor() as cursor:
         cursor.execute(
@@ -45,6 +48,8 @@ def get_saved_words(user_id: int):
             "saved_words": users_saved_words
         }
         
+
+@tireless_connection
 def delete_saved_word(saved_id: int):
     with db_conn.cursor() as cursor:
         cursor.execute("delete from saved_words where id = %s", (saved_id,))
@@ -55,6 +60,8 @@ def delete_saved_word(saved_id: int):
             "success": True
         }
 
+
+@tireless_connection
 def check_can_train(user_id: int):
     with db_conn.cursor() as cursor:
         cursor.execute("select id from saved_words where user_id = %s", (user_id,))
