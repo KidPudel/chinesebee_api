@@ -6,7 +6,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from deep_translator import GoogleTranslator
 
 from typing import Dict
-
 import sys
 import os
 
