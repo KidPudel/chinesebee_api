@@ -23,7 +23,7 @@ async def preflight_handler():
 @app.middleware("http")
 async def add_cors_headers(request: Request, call_next):
     response = await call_next(request)
-    response.headers["Access-Control-Allow-Origin"] = "https://chinese-bee-dictation-production.up.railway.app" 
+    response.headers["Access-Control-Allow-Origin"] = "https://chinese-bee-dictation-production.up.railway.app"
     return response
 
 app.add_middleware(
@@ -97,5 +97,5 @@ def accuracy_score_handler(image: Annotated[str | None, Form()] = None, target: 
         return error_result(err_msg="no base64 image")
     if target == None:
         return error_result(err_msg="no target")
-    
+
     return score_accuracy(image=image, target=target)

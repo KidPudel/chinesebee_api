@@ -1,4 +1,4 @@
-FROM python:3.12.2-slim-bookworm AS build-stage
+FROM python:3.12.4-slim-bookworm AS build-stage
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -15,7 +15,7 @@ COPY requirements.txt ./
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
 
 
-FROM python:3.12.2-slim-bookworm AS serve-stage
+FROM python:3.12.4-slim-bookworm AS serve-stage
 
 
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 -y --no-install-recommends \
